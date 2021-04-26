@@ -1,10 +1,14 @@
 import React from 'react'
 
-import { ExampleComponent } from 'dotify-react'
-import 'dotify-react/dist/index.css'
+import Dottify from 'dotify-react'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <div>
+    <Dottify dotsCount={150} />
+    <div style={{ height: '100vh' }}>
+      test
+    </div>
+  </div>
 }
 
 export default App
