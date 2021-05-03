@@ -43,8 +43,8 @@ const DotsLayer: React.FC<IDotsLayer> = ({ dotsCount, children }) => {
   const animateRef = useRef<any>()
 
   useEffect(() => {
-    const fieldWidth = wrapperRef.current?.offsetWidth || 1920
-    const fieldHeight = wrapperRef.current?.offsetHeight || 1080
+    const fieldWidth = wrapperRef.current!.offsetWidth
+    const fieldHeight = wrapperRef.current!.offsetHeight
 
     const dotsArr: IDot[] = []
     new Array(dotsCount).fill(0).forEach((_, i) => {
