@@ -6,7 +6,7 @@ import Dottify from 'dotify-react'
 const App = () => {
   return <div>
     <FPSStats />
-    <Dottify dotsCount={388} />
+    <Dottify dotsCount={150} />
     <div style={{ height: '100vh', textAlign: 'center' }}>
       test
     </div>

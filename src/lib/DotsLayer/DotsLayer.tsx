@@ -15,6 +15,8 @@ export interface IDot {
   angle: number,
   size: string,
   shade: string,
+  spawnedRecently: boolean,
+  spawnTime: number,
   id: number
 }
 
@@ -29,6 +31,29 @@ const rootStyle = {
   background: 'rgb(189, 189, 189)',
   overflow: 'hidden'
 } as React.CSSProperties
+
+const dotFadeAnimation = `
+  @keyframes pulse-animation {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: .4;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`
+const FADE_TIME = 800
 const dotStyle = {
   position: 'absolute',
   zIndex: 99,
@@ -60,13 +85,16 @@ const DotsLayer: React.FC<IDotsLayer> = ({ dotsCount, children }) => {
 
   const generateDot = (fieldWidth: number, fieldHeight: number, id: number): IDot => {
     const dotCoords = getRandomCoords(fieldWidth, fieldHeight)
+    const dotOpacity = getRandomNum(3, 10) / 10
 
     return {
       x: dotCoords.x,
       y: dotCoords.y,
       angle: getRandomNum(0, 359),
       size: `${getRandomNum(3, 7)}px`,
-      shade: `rgba(255, 255, 255, ${getRandomNum(3, 10) / 10})`,
+      shade: `rgba(255, 255, 255, ${dotOpacity})`,
+      spawnedRecently: true,
+      spawnTime: Date.now(),
       id
     }
   }
@@ -87,7 +115,8 @@ const DotsLayer: React.FC<IDotsLayer> = ({ dotsCount, children }) => {
 
       const updatedDot = {
         ...dot,
-        ...newDotCoords
+        ...newDotCoords,
+        spawnedRecently: (Date.now() - dot.spawnTime > FADE_TIME) ? false : true
       }
       return updatedDot
     })
@@ -110,16 +139,19 @@ const DotsLayer: React.FC<IDotsLayer> = ({ dotsCount, children }) => {
         height: !!children ? 'auto' : '100vh'
       }}
     >
+      <style>{dotFadeAnimation}</style>
       {children}
       {dots.map((dot, i) => <div
-        key={i} 
+        key={i}
         style={{
           ...dotStyle,
           top: `${dot.y}px`,
           left: `${dot.x}px`,
           minWidth: dot.size,
           minHeight: dot.size,
-          background: dot.shade
+          background: dot.shade,
+
+          animation: `${dot.spawnedRecently ? `fadeIn ${FADE_TIME}ms` : 'pulse-animation 4s infinite'}`,
         }}
       ></div>)}
     </div>
