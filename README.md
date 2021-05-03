@@ -9,21 +9,50 @@
 ```bash
 npm install --save dotify-react
 ```
+or
+```bash
+yarn add dotify-react
+```
 
 ## Usage
 
 ```tsx
 import React, { Component } from 'react'
 
-import MyComponent from 'dotify-react'
-import 'dotify-react/dist/index.css'
+import DotifyReact from 'dotify-react'
 
 class Example extends Component {
   render() {
-    return <MyComponent />
+    return <div>
+      <DotifyReact dotsCount={100} />
+      ...some content
+    </div>
   }
 }
 ```
+On this case, dots background will have fixed position
+```tsx
+import React, { Component } from 'react'
+
+import DotifyReact from 'dotify-react'
+
+class Example extends Component {
+  render() {
+    return <div>
+      <DotifyReact dotsCount={100}>
+        ...some content
+      </DotifyReact>
+    </div>
+  }
+}
+```
+On this case, dots background will wrap all children
+
+## Props
+```tsx
+<DotifyReact dotsCount={100} />
+```
+dotsCount: number
 
 ## License
 
